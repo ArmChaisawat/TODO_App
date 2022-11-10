@@ -1,0 +1,152 @@
+import 'package:flutter/material.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
+import 'package:project1/Provider/Provider.dart';
+import 'package:provider/provider.dart';
+import '../models/Transaction.dart';
+import 'addtask_screen.dart';
+
+class TaskList extends StatefulWidget {
+  const TaskList({super.key});
+
+  @override
+  State<TaskList> createState() => _TaskListState();
+}
+
+class _TaskListState extends State<TaskList> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: Container(
+        padding: const EdgeInsets.all(30),
+        child: Consumer(
+          builder: (context, TransactionProvider provider, child) {
+            int count = provider.transaction.length;
+            double isDoneCount = provider.getCount() / count;
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                GestureDetector(
+                  child: Hero(
+                    tag: 'work',
+                    child: Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.blue,
+                      ),
+                      child: const Icon(
+                        Icons.work,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  provider.transaction.isEmpty ? '0 Tasks' : '$count Tasks',
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                const Text(
+                  'Works',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 25,
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                LinearPercentIndicator(
+                  lineHeight: 2,
+                  percent:
+                      provider.transaction.isEmpty ? 0 : provider.getPercent(),
+                  progressColor: Colors.blue,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  provider.transaction.isEmpty
+                      ? '0% to completed'
+                      : '${(isDoneCount * 100).toStringAsFixed(0)} % to completed',
+                  style: const TextStyle(
+                    color: Colors.grey,
+                  ),
+                ),
+                Expanded(
+                  child: provider.transaction.isEmpty
+                      ? const Center(
+                          child: Text(
+                            'Add your first task!',
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        )
+                      : Container(
+                          height: 100,
+                          padding: const EdgeInsets.all(0),
+                          child: ListView.builder(
+                            itemCount: provider.transaction.length,
+                            itemBuilder: (context, index) {
+                              List<Transaction> data = provider.transaction;
+
+                              return provider.transaction.isEmpty
+                                  ? Container()
+                                  : Dismissible(
+                                      key: Key(data[index].title),
+                                      background: const Card(
+                                        color: Colors.red,
+                                        child: Align(
+                                          alignment: Alignment.centerRight,
+                                          child: Text(
+                                            'Swipe to remove task,',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 15),
+                                          ),
+                                        ),
+                                      ),
+                                      onDismissed: (direction) {
+                                        provider.removeTransaction(index);
+                                      },
+                                      child: ListTile(
+                                        leading: Checkbox(
+                                          value: data[index].value,
+                                          onChanged: (value) {
+                                            provider.onChecked(index, value!);
+                                          },
+                                        ),
+                                        title: Text(data[index].title),
+                                      ),
+                                    );
+                            },
+                          ),
+                        ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddTask(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
