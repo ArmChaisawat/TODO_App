@@ -16,6 +16,7 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
+    TransactionProvider provider = Provider.of(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
@@ -39,14 +40,13 @@ class _AddTaskState extends State<AddTask> {
                   ),
                 ),
                 TextFormField(
+                  controller: titlecontrollor,
                   validator: (value) {
-                    if (value!.isEmpty) {
+                    if (value == null || value.trim().isEmpty) {
                       return 'Please enter your text.';
                     }
                     return null;
                   },
-                  controller: titlecontrollor,
-                  decoration: const InputDecoration(),
                 ),
               ],
             ),
@@ -55,10 +55,8 @@ class _AddTaskState extends State<AddTask> {
       ),
       floatingActionButton: ElevatedButton(
         onPressed: () {
-          var title = titlecontrollor.text;
+          String title = titlecontrollor.text.trim();
           Transaction statement = Transaction(title: title);
-          TransactionProvider provider = Provider.of(context, listen: false);
-
           if (_formKey.currentState!.validate()) {
             provider.addTransaction(statement);
             Navigator.pop(context);
