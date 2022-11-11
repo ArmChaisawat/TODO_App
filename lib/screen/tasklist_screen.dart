@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:project1/Provider/Provider.dart';
+import 'package:project1/Provider/provider_todo.dart';
 import 'package:provider/provider.dart';
-import '../models/Transaction.dart';
+import '../models/transaction_model.dart';
 import 'addtask_screen.dart';
 
 class TaskList extends StatefulWidget {

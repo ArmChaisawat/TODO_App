@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import '../models/Transaction.dart';
+import '../models/transaction_model.dart';
 
 class TransactionProvider with ChangeNotifier {
   List<Transaction> transaction = [];

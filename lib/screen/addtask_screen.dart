@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:project1/Provider/Provider.dart';
-import 'package:project1/models/Transaction.dart';
+import 'package:project1/Provider/provider_todo.dart';
+import 'package:project1/models/transaction_model.dart';
 import 'package:provider/provider.dart';
 
 class AddTask extends StatefulWidget {
