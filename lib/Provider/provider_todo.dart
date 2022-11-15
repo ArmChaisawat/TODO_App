@@ -10,10 +10,6 @@ class TransactionProvider with ChangeNotifier {
     return transaction;
   }
 
-  double doneCount() {
-    return getCount() / transaction.length;
-  }
-
   double getCount() {
     count = transaction.where((e) => e.value == true).length;
     return count?.toDouble() ?? 0;
