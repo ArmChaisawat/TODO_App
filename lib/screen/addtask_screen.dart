@@ -40,6 +40,7 @@ class _AddTaskState extends State<AddTask> {
                   ),
                 ),
                 TextFormField(
+                  autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: titlecontrollor,
                   validator: (value) {
                     if (value == null || value.trim().isEmpty) {
