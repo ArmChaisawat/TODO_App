@@ -21,7 +21,7 @@ class _TaskListState extends State<TaskList> {
         padding: const EdgeInsets.all(30),
         child: Consumer(
           builder: (context, TransactionProvider provider, child) {
-            int count = provider.transaction.length;
+            int count = provider.transactionModel.length;
             double isDoneCount = provider.getCount() / count;
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -50,7 +50,9 @@ class _TaskListState extends State<TaskList> {
                   height: 10,
                 ),
                 Text(
-                  provider.transaction.isEmpty ? '0 Tasks' : '$count Tasks',
+                  provider.transactionModel.isEmpty
+                      ? '0 Tasks'
+                      : '$count Tasks',
                   style: const TextStyle(
                     color: Colors.grey,
                   ),
@@ -67,15 +69,16 @@ class _TaskListState extends State<TaskList> {
                 ),
                 LinearPercentIndicator(
                   lineHeight: 2,
-                  percent:
-                      provider.transaction.isEmpty ? 0 : provider.getPercent(),
+                  percent: provider.transactionModel.isEmpty
+                      ? 0
+                      : provider.getPercent(),
                   progressColor: Colors.blue,
                 ),
                 const SizedBox(
                   height: 10,
                 ),
                 Text(
-                  provider.transaction.isEmpty
+                  provider.transactionModel.isEmpty
                       ? '0% to completed'
                       : '${(isDoneCount * 100).toStringAsFixed(0)} % to completed',
                   style: const TextStyle(
@@ -83,7 +86,7 @@ class _TaskListState extends State<TaskList> {
                   ),
                 ),
                 Expanded(
-                  child: provider.transaction.isEmpty
+                  child: provider.transactionModel.isEmpty
                       ? const Center(
                           child: Text(
                             'Add your first task!',
@@ -94,11 +97,12 @@ class _TaskListState extends State<TaskList> {
                           height: 100,
                           padding: const EdgeInsets.all(0),
                           child: ListView.builder(
-                            itemCount: provider.transaction.length,
+                            itemCount: provider.transactionModel.length,
                             itemBuilder: (context, index) {
-                              List<Transaction> data = provider.transaction;
+                              List<TransactionModel> data =
+                                  provider.transactionModel;
 
-                              return provider.transaction.isEmpty
+                              return provider.transactionModel.isEmpty
                                   ? Container()
                                   : Dismissible(
                                       key: Key(data[index].title),

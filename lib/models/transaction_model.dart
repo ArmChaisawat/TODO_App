@@ -1,7 +1,7 @@
-class Transaction {
+class TransactionModel {
   String title;
   bool value;
-  Transaction({
+  TransactionModel({
     required this.title,
     this.value = false,
   });

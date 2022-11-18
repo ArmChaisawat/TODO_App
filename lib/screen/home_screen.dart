@@ -15,13 +15,18 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         padding: const EdgeInsets.all(20),
         child: Consumer(
           builder: (context, TransactionProvider provider, child) {
-            int count = provider.transaction.length;
+            int count = provider.transactionModel.length;
             double isDoneCount = provider.getCount() / count;
             return Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -168,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               LinearPercentIndicator(
                                 lineHeight: 2,
-                                percent: provider.transaction.isEmpty
+                                percent: provider.transactionModel.isEmpty
                                     ? 0
                                     : provider.getPercent(),
                                 progressColor: Colors.blue,
@@ -177,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 height: 10,
                               ),
                               Text(
-                                provider.transaction.isEmpty
+                                provider.transactionModel.isEmpty
                                     ? '0% to completed'
                                     : '${(isDoneCount * 100).toStringAsFixed(0)} % to completed',
                                 style: const TextStyle(
