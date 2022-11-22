@@ -105,7 +105,7 @@ class _TaskListState extends State<TaskList> {
                               return provider.transactionModel.isEmpty
                                   ? Container()
                                   : Dismissible(
-                                      key: Key(data[index].title),
+                                      key: UniqueKey(),
                                       background: const Card(
                                         color: Colors.red,
                                         child: Align(

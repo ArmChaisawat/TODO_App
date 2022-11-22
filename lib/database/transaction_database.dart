@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project1/models/transaction_model.dart';
@@ -28,6 +31,37 @@ class TransactionDatebase {
         'value': statement.value,
       },
     );
+    database.close();
+    return keyID;
+  }
+
+  Future<int> deleteData(TransactionModel statement) async {
+    var finder = Finder(
+        filter: Filter.equals(
+      'title',
+      statement.title,
+    ));
+    var database = await openDatabase();
+    var store = intMapStoreFactory.store('expense');
+    var keyID = store.delete(database, finder: finder);
+    database.close();
+    return keyID;
+  }
+
+  Future addAllData(List<TransactionModel> listData) async {
+    var database = await openDatabase();
+    var store = intMapStoreFactory.store('expense');
+    var keyID = store.addAll(database, [
+      {'': listData}
+    ]);
+    database.close();
+    return keyID;
+  }
+
+  Future<int> removeData() async {
+    var database = await openDatabase();
+    var store = intMapStoreFactory.store('expense');
+    var keyID = store.delete(database);
     database.close();
     return keyID;
   }
