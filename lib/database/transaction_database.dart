@@ -1,6 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:project1/models/transaction_model.dart';
@@ -27,6 +24,7 @@ class TransactionDatebase {
     var keyID = store.add(
       database,
       {
+        'id': statement.id,
         'title': statement.title,
         'value': statement.value,
       },
@@ -36,11 +34,7 @@ class TransactionDatebase {
   }
 
   Future<int> deleteData(TransactionModel statement) async {
-    var finder = Finder(
-        filter: Filter.equals(
-      'title',
-      statement.title,
-    ));
+    var finder = Finder(filter: Filter.byKey(statement.id));
     var database = await openDatabase();
     var store = intMapStoreFactory.store('expense');
     var keyID = store.delete(database, finder: finder);
@@ -48,20 +42,16 @@ class TransactionDatebase {
     return keyID;
   }
 
-  Future addAllData(List<TransactionModel> listData) async {
+  Future<int> updateData(TransactionModel statement) async {
+    final finder = Finder(filter: Filter.byKey(statement.id));
     var database = await openDatabase();
     var store = intMapStoreFactory.store('expense');
-    var keyID = store.addAll(database, [
-      {'': listData}
-    ]);
-    database.close();
-    return keyID;
-  }
-
-  Future<int> removeData() async {
-    var database = await openDatabase();
-    var store = intMapStoreFactory.store('expense');
-    var keyID = store.delete(database);
+    var keyID = store.update(
+        database,
+        {
+          'value': statement.value,
+        },
+        finder: finder);
     database.close();
     return keyID;
   }
@@ -73,9 +63,7 @@ class TransactionDatebase {
     List transactionList = <TransactionModel>[];
     for (var record in snapshot) {
       transactionList.add(
-        TransactionModel(
-          title: record['title'].toString(),
-        ),
+        TransactionModel(title: record['title'].toString(), id: record.key),
       );
     }
     return transactionList;

@@ -6,9 +6,7 @@ import '../models/transaction_model.dart';
 class TransactionProvider with ChangeNotifier {
   List<TransactionModel> transactionModel = [];
   int? count = 0;
-  TransactionModel data = TransactionModel(title: '');
   var database = TransactionDatebase(databaseName: 'Transaction.database');
-
   List<TransactionModel> getTransaction() {
     return transactionModel;
   }
@@ -30,21 +28,21 @@ class TransactionProvider with ChangeNotifier {
   void addTransaction(TransactionModel statement) async {
     transactionModel.add(statement);
     await database.addData(statement);
-    transactionModel = await database.loadAllDatabase();
+    notifyListeners();
+  }
+
+  void updateTransaction(int index) async {
+    await database.updateData(transactionModel[index]);
     notifyListeners();
   }
 
   void removeTransaction(int index) async {
-    data = transactionModel[index];
     await database.deleteData(transactionModel[index]);
     transactionModel.removeAt(index);
-
-    // await database.addAllData(transactionModel);
-    transactionModel = await database.loadAllDatabase();
     notifyListeners();
   }
 
-  void onChecked(int index, bool value) {
+  void onChecked(int index, bool value) async {
     transactionModel[index].value = value;
     notifyListeners();
   }

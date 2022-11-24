@@ -58,7 +58,10 @@ class _AddTaskState extends State<AddTask> {
       floatingActionButton: ElevatedButton(
         onPressed: () {
           String title = titlecontrollor.text.trim();
-          TransactionModel statement = TransactionModel(title: title);
+          TransactionModel statement = TransactionModel(
+            title: title,
+            id: provider.transactionModel.length,
+          );
           if (_formKey.currentState!.validate()) {
             provider.addTransaction(statement);
             Navigator.pop(context);
