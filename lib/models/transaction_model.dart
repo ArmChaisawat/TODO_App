@@ -1,7 +1,7 @@
 class TransactionModel {
   String title;
-  bool value;
-  int id;
+  dynamic value;
+  dynamic id;
   TransactionModel({
     required this.id,
     required this.title,

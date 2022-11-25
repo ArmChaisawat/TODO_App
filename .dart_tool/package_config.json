@@ -32,6 +32,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "crypto",
+      "rootUri": "file:///Users/imacsintern/flutter/.pub-cache/hosted/pub.dartlang.org/crypto-3.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "2.14"
+    },
+    {
       "name": "cupertino_icons",
       "rootUri": "file:///Users/imacsintern/flutter/.pub-cache/hosted/pub.dartlang.org/cupertino_icons-1.0.5",
       "packageUri": "lib/",
@@ -242,6 +248,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "typed_data",
+      "rootUri": "file:///Users/imacsintern/flutter/.pub-cache/hosted/pub.dartlang.org/typed_data-1.3.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "uuid",
+      "rootUri": "file:///Users/imacsintern/flutter/.pub-cache/hosted/pub.dartlang.org/uuid-3.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "vector_math",
       "rootUri": "file:///Users/imacsintern/flutter/.pub-cache/hosted/pub.dartlang.org/vector_math-2.1.2",
       "packageUri": "lib/",
@@ -266,7 +284,7 @@
       "languageVersion": "2.18"
     }
   ],
-  "generated": "2022-11-24T05:03:36.226251Z",
+  "generated": "2022-11-25T03:00:31.924953Z",
   "generator": "pub",
   "generatorVersion": "2.18.5"
 }

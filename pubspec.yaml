@@ -42,6 +42,7 @@ dependencies:
   path: ^1.8.2
   path_provider: ^2.0.11
   sembast: ^3.3.1
+  uuid: ^3.0.7
 
 dev_dependencies:
   flutter_test:

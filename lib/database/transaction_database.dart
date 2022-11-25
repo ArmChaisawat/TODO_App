@@ -34,7 +34,7 @@ class TransactionDatebase {
   }
 
   Future<int> deleteData(TransactionModel statement) async {
-    var finder = Finder(filter: Filter.byKey(statement.id));
+    var finder = Finder(filter: Filter.equals('id', statement.id));
     var database = await openDatabase();
     var store = intMapStoreFactory.store('expense');
     var keyID = store.delete(database, finder: finder);
@@ -43,12 +43,14 @@ class TransactionDatebase {
   }
 
   Future<int> updateData(TransactionModel statement) async {
-    final finder = Finder(filter: Filter.byKey(statement.id));
+    var finder = Finder(filter: Filter.equals('id', statement.id));
     var database = await openDatabase();
     var store = intMapStoreFactory.store('expense');
     var keyID = store.update(
         database,
         {
+          'id': statement.id,
+          'title': statement.title,
           'value': statement.value,
         },
         finder: finder);
@@ -63,7 +65,10 @@ class TransactionDatebase {
     List transactionList = <TransactionModel>[];
     for (var record in snapshot) {
       transactionList.add(
-        TransactionModel(title: record['title'].toString(), id: record.key),
+        TransactionModel(
+            id: record['id'],
+            title: record['title'].toString(),
+            value: record['value']),
       );
     }
     return transactionList;
