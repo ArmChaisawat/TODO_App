@@ -1,7 +1,9 @@
-class Transaction {
+class TransactionModel {
   String title;
-  bool value;
-  Transaction({
+  dynamic value;
+  dynamic id;
+  TransactionModel({
+    required this.id,
     required this.title,
     this.value = false,
   });

@@ -1,36 +1,51 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:project1/database/transaction_database.dart';
+import 'package:uuid/uuid.dart';
 import '../models/transaction_model.dart';
 
 class TransactionProvider with ChangeNotifier {
-  List<Transaction> transaction = [];
+  List<TransactionModel> transactionModel = [];
   int? count = 0;
-
-  List<Transaction> getTransaction() {
-    return transaction;
+  var database = TransactionDatebase(databaseName: 'Transaction.database');
+  List<TransactionModel> getTransaction() {
+    return transactionModel;
   }
 
   double getCount() {
-    count = transaction.where((e) => e.value == true).length;
+    count = transactionModel.where((e) => e.value == true).length;
     return count?.toDouble() ?? 0;
   }
 
   double getPercent() {
-    return getCount() / transaction.length;
+    return getCount() / transactionModel.length;
   }
 
-  void addTransaction(Transaction statement) {
-    transaction.add(statement);
+  void initData() async {
+    transactionModel = await database.loadAllDatabase();
     notifyListeners();
   }
 
-  void removeTransaction(int index) {
-    transaction.removeAt(index);
+  void addTransaction(TransactionModel statement) async {
+    transactionModel.add(statement);
+    await database.addData(statement);
     notifyListeners();
   }
 
-  void onChecked(int index, bool value) {
-    transaction[index].value = value;
+  void removeTransaction(int index) async {
+    await database.deleteData(transactionModel[index]);
+    transactionModel.removeAt(index);
     notifyListeners();
+  }
+
+  void onChecked(int index, bool value) async {
+    transactionModel[index].value = value;
+    await database.updateData(transactionModel[index]);
+    notifyListeners();
+  }
+
+  dynamic createUuid() {
+    const uuid = Uuid();
+    return uuid.v1();
   }
 }

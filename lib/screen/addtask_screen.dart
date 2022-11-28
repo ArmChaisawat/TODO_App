@@ -40,6 +40,7 @@ class _AddTaskState extends State<AddTask> {
                   ),
                 ),
                 TextFormField(
+                  autofocus: true,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   controller: titlecontrollor,
                   validator: (value) {
@@ -57,7 +58,11 @@ class _AddTaskState extends State<AddTask> {
       floatingActionButton: ElevatedButton(
         onPressed: () {
           String title = titlecontrollor.text.trim();
-          Transaction statement = Transaction(title: title);
+          var id = provider.createUuid();
+          TransactionModel statement = TransactionModel(
+            title: title,
+            id: id,
+          );
           if (_formKey.currentState!.validate()) {
             provider.addTransaction(statement);
             Navigator.pop(context);
